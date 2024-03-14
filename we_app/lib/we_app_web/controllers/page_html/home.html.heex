@@ -1,3 +1,33 @@
+<script>
+function copyUrlToClipboard() {
+    
+  // 1. Get the full URL dynamically
+  let fullUrl = window.location.href; 
+
+  // 2. Check for Existing UTM Parameters
+  const urlParams = new URLSearchParams(fullUrl.split('?')[1]); 
+  let hasSource = urlParams.has('utm_source'); 
+  let hasCampaign = urlParams.has('utm_campaign');
+
+  // 3. Conditionally Add UTM Parameters 
+  if (!hasSource) { fullUrl += "?utm_source=exampleSource"; }
+  if (!hasCampaign) { fullUrl += "?utm_campaign=exampleCampaign"; }  
+
+  // 4. Create Temporary Element for Copying  
+  let tempInput = document.createElement("input");
+  tempInput.value = fullUrl;
+  document.body.appendChild(tempInput);
+
+  // 5. Copy to Clipboard
+  tempInput.select();
+  document.execCommand("copy");
+  document.body.removeChild(tempInput);
+
+  alert("URL copied to clipboard!");
+}
+</script>
+
+
 <body>
     <div><h1>This is <strong>Boney, the spinning skull!</strong></h1></div>
     <br><br><br>
@@ -12,6 +42,6 @@
         <h3>Click on the skull below to share <strong>Boney!</strong></h3>
     </div>
     <div>
-        <img id="skullButton" src="/images/skull-share-icon.png" alt="Loading">
+        <img id="skullButton" src="/images/skull-share-icon.png" alt="Loading" onclick="copyUrlToClipboard()">
     </div>
 </body>
