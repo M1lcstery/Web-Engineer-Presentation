@@ -6,8 +6,8 @@ defmodule UrlTracker do
 
     %{
       full_url: full_url,
-      utm_source: utm_source,
-      utm_campaign: utm_campaign
+      utm_source: get_param(conn, "utm_source"),
+      utm_campaign: get_param(conn, "utm_campaign")
     }
   end
 

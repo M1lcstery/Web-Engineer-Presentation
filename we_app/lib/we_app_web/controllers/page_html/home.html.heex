@@ -1,32 +1,34 @@
 <script>
 function copyUrlToClipboard() {
-    
   // 1. Get the full URL dynamically
   let fullUrl = window.location.href; 
 
-  // 2. Check for Existing UTM Parameters
+  // 2. Work with URLSearchParams
   const urlParams = new URLSearchParams(fullUrl.split('?')[1]); 
-  let hasSource = urlParams.has('utm_source'); 
-  let hasCampaign = urlParams.has('utm_campaign');
 
-  // 3. Conditionally Add UTM Parameters 
-  if (!hasSource) { fullUrl += "?utm_source=exampleSource"; }
-  if (!hasCampaign) { fullUrl += "?utm_campaign=exampleCampaign"; }  
+  // 3. Conditionally Set UTM Parameters (respecting existing values)
+  if (!urlParams.has('utm_source')) { urlParams.set('utm_source', 'exampleSource'); }
+  if (!urlParams.has('utm_campaign')) { urlParams.append('utm_campaign', 'exampleCampaign'); }  // Use append to potentially add multiple campaigns
 
-  // 4. Create Temporary Element for Copying  
+  // 4. Reconstruct the URL with modified query string
+  const updatedUrl = fullUrl.split('?')[0] + '?' + urlParams.toString();
+
+  // 5. Create Temporary Element for Copying  
   let tempInput = document.createElement("input");
-  tempInput.value = fullUrl;
+  tempInput.value = updatedUrl;
   document.body.appendChild(tempInput);
 
-  // 5. Copy to Clipboard
+  // 6. Copy to Clipboard
   tempInput.select();
   document.execCommand("copy");
+
+  // 7. Cleanup
   document.body.removeChild(tempInput);
 
+  // 8. (Optional) Feedback to the User
   alert("URL copied to clipboard!");
 }
 </script>
-
 
 <body>
     <div><h1>This is <strong>Boney, the spinning skull!</strong></h1></div>
